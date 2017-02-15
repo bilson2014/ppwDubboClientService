@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.paipianwang.pat.facade.user.service.dao.impl.PmsUserDaoImpl">
+
+	<!-- 产品信息表 -->
+	<sql id="pms_User"> USERS </sql>
+	
+	<select id="validationPhone" resultType="int">
+		SELECT COUNT(1)
+			FROM 
+			<include refid="pms_User" /> u
+			<where>
+				<if test="telephone != null and telephone != ''">
+					u.TELEPHONE = #{telephone}
+				</if>
+				<if test="loginName != null and loginName != ''">
+					AND u.LOGINNAME = #{loginName}
+				</if>
+			</where>
+	</select>
+	
+	<insert id="save" useGeneratedKeys="true" keyProperty="id"
+		parameterType="PmsUser">
+			INSERT INTO 
+			<include refid="pms_User" />
+			(
+				USERNAME,
+				TELEPHONE,
+				PASSWORD,
+				EMAIL,
+				BIRTHDAY,
+				IMGURL,
+				SEX,
+				REALNAME,
+				QQ,
+				USERCOMPANY,
+				NOTE,
+				CUSTOMERSOURCE,
+				WECHAT,
+				KINDLY_SEND,
+				FOLLOW_TIME,
+				UPDATE_TIME
+		<if test="clientLevel != null">
+			,CLIENTLEVEL
+		</if>
+		<if test="preference != null">
+			,PREFERENCE
+		</if>
+			) VALUES(
+				#{userName},
+				#{telephone},
+				#{password},
+				#{email},
+				DATE_FORMAT(#{birthday},'%Y-%m-%d'),
+				#{imgUrl},
+				${sex},
+				#{realName},
+				#{qq},
+				#{userCompany},
+				#{note},
+				#{customerSource},
+				#{weChat},
+				#{kindlySend},
+				#{followTime},
+				CURRENT_TIMESTAMP
+		<if test="clientLevel != null">
+			,${clientLevel}
+		</if>
+		<if test="preference != null">
+			,${preference}
+		</if>
+			)
+	</insert>
+	
+	<select id="verificationUserExistByThirdLogin" resultType="PmsUser">
+		SELECT u.ID AS id,
+			   u.USERNAME AS userName,
+			   u.TELEPHONE AS telephone,
+			   u.EMAIL AS email,
+			   DATE_FORMAT(u.BIRTHDAY,'%Y-%m-%d') AS birthday,
+			   u.REALNAME AS realName,
+			   u.USERCOMPANY AS userCompany,
+			   u.LOGINNAME AS loginName,
+			   u.CUSTOMERSOURCE AS customerSource,
+			   u.PREFERENCE AS preference,
+			   u.KINDLY_SEND AS kindly_send,
+			   u.IMGURL AS imgUrl,
+			   u.SEX AS sex,
+			   u.QQ AS qq,
+			   u.QQUNIQUE AS qqUnique,
+	  			   u.WBUNIQUE AS wbUnique,
+	  			   u.WECHATUNIQUE AS wechatUnique,
+			   u.REALNAME AS realName,
+			   u.CLIENTLEVEL AS clientLevel
+		FROM 
+		<include refid="pms_User" /> u
+		<where>
+			QQUNIQUE = #{uniqueId}
+		   OR WBUNIQUE = #{uniqueId}
+		   OR WECHATUNIQUE = #{uniqueId}
+		</where>
+	</select>
+	
+	<select id="findUserById" resultType="PmsUser">
+		SELECT u.ID AS id,
+			   u.USERNAME AS userName,
+			   u.PASSWORD AS password,
+			   u.TELEPHONE AS telephone,
+			   u.EMAIL AS email,
+			   u.IMGURL AS imgUrl,
+			   u.SEX AS sex,
+			   u.QQ AS qq,
+			   u.PREFERENCE AS preference,
+			   u.KINDLY_SEND AS kindly_send,
+			   u.WECHAT AS weChat,
+			   u.REALNAME as realName,
+			   u.USERCOMPANY AS userCompany,
+			   u.CLIENTLEVEL AS clientLevel,
+			   DATE_FORMAT(u.BIRTHDAY,'%Y-%m-%d') AS birthday,
+			   DATE_FORMAT(u.CREATEDATE,'%Y-%m-%d %T') AS createDate,
+			   u.LOGINNAME AS loginName,
+			   u.CUSTOMERSOURCE AS customerSource,
+			   u.QQUNIQUE AS qqUnique,
+			   u.WBUNIQUE AS wbUnique,
+			   u.WECHATUNIQUE AS wechatUnique
+		FROM 
+		<include refid="pms_User" />  u
+		<where>
+			u.ID = ${_parameter}
+		</where>
+	</select>
+	
+	<update id="update">
+		UPDATE <include refid="pms_User" />
+		<set>
+			USERNAME = #{userName},
+		   	TELEPHONE = #{telephone},
+		  	EMAIL = #{email},
+			<if test="birthday != null and birthday != ''">
+				BIRTHDAY = DATE_FORMAT(#{birthday},'%Y-%m-%d'),
+			</if>
+			<if test="clientLevel != null">
+				CLIENTLEVEL = ${clientLevel},
+			</if>
+			<if test="clientLevel == -1">
+				CLIENTLEVEL = NULL,
+			</if>
+			<if test="qqUnique != null and qqUnique != ''">
+				QQUNIQUE = #{qqUnique},
+			</if>
+	
+			<if test="wbUnique != null and wbUnique != ''">
+				WBUNIQUE = #{wbUnique},
+			</if>
+			<if test="wechatUnique != null and wechatUnique != ''">
+				WECHATUNIQUE = #{wechatUnique},
+			</if>
+			<if test="preference != null">
+				PREFERENCE = ${preference},
+			</if>
+			<if test="followTime != null and followTime != ''">
+				FOLLOW_TIME = DATE_FORMAT(#{followTime},'%Y-%m-%d'),
+			</if>
+			<if test="updateTime != null and updateTime != ''">
+				UPDATE_TIME = CURRENT_TIMESTAMP,
+			</if>
+			<if test="customerSource != null">
+				CUSTOMERSOURCE = ${customerSource},
+			</if>
+			<if test="kindlySend != null  and kindlySend != ''">
+				KINDLY_SEND = #{kindlySend},
+			</if>
+			   IMGURL = #{imgUrl},
+			   SEX = ${sex},
+			   REALNAME = #{realName},
+			   QQ = #{qq},
+			   WECHAT = #{weChat},
+			   USERCOMPANY = #{userCompany},
+			   NOTE = #{note}
+	   </set>
+	   <where>
+	   	ID = #{id}
+	   </where>
+	</update>
+	<select id="findUserByPhone" resultType="PmsUser">
+		SELECT u.ID AS id,
+			   u.ID AS userId,
+			   u.USERNAME AS userName,
+			   u.PASSWORD AS PASSWORD,
+			   u.TELEPHONE AS telephone,
+			   u.EMAIL AS email,
+			   u.IMGURL AS imgUrl,
+			   u.LOGINNAME AS loginName,
+			   u.CUSTOMERSOURCE AS customerSource,
+			   u.PREFERENCE AS preference,
+			   u.KINDLY_SEND AS kindly_send,
+			   u.SEX AS sex,
+			   u.QQ AS qq,
+			   u.QQUNIQUE AS qqUnique,
+			   u.WBUNIQUE AS wbUnique,
+			   u.WECHATUNIQUE AS wechatUnique,
+			   u.REALNAME AS realName,
+			   u.USERCOMPANY AS userCompany,
+			   u.CLIENTLEVEL AS clientLevel,
+			   DATE_FORMAT(u.BIRTHDAY,'%Y-%m-%d') AS birthday,
+			   DATE_FORMAT(u.CREATEDATE,'%Y-%m-%d %T') AS createDate
+		FROM 
+		<include refid="pms_User" /> u
+		<where>
+			u.TELEPHONE=#{telephone}
+		</where>
+	</select>
+	<insert id="saveByThirdLogin" useGeneratedKeys="true"
+		keyProperty="id" parameterType="PmsUser">
+			INSERT INTO 
+			<include refid="pms_User" />
+			(
+				USERNAME,
+				IMGURL,
+				PASSWORD,
+				TELEPHONE,
+				QQUNIQUE,
+				WBUNIQUE,
+				WECHATUNIQUE
+			) VALUES(
+				#{userName},
+				#{imgUrl},
+				#{password},
+				#{telephone},
+				#{qqUnique},
+				#{wbUnique},
+				#{wechatUnique}
+			)
+	</insert>
+	<select id="findUserByAttr" resultType="PmsUser">
+		   SELECT u.ID AS id,
+		   u.USERNAME AS userName,
+		   u.PASSWORD AS PASSWORD,
+		   u.TELEPHONE AS telephone,
+		   u.EMAIL AS email,
+		   u.BIRTHDAY AS birthday,
+		   u.IMGURL AS imgUrl,
+		   u.SEX AS sex,
+		   u.QQ AS qq,
+		   u.QQUNIQUE AS qqUnique,
+		   u.WBUNIQUE AS wbUnique,
+		   u.WECHATUNIQUE AS wechatUnique,
+		   u.REALNAME AS realName,
+		   u.USERCOMPANY AS userCompany,
+		   u.CLIENTLEVEL AS clientLevel,
+		   u.CUSTOMERSOURCE AS customerSource, 
+		   u.KINDLY_SEND AS  kindlySend,
+		   u.LOGINNAME AS loginName
+		   FROM 
+			<include refid="pms_User" /> u
+			<where>
+				<if test="telephone != null and telephone != ''">
+					u.TELEPHONE = #{telephone}
+				</if>
+			</where>
+	</select>
+	<delete id="delete">
+		DELETE FROM 
+		<include refid="pms_User" />
+		<where>
+			ID = ${_parameter}
+		</where>
+	</delete>
+		
+	<update id="modifyUserPassword">
+		UPDATE 
+		<include refid="pms_User" />
+		<set>
+			PASSWORD = #{password},
+			UPDATE_TIME = CURRENT_TIMESTAMP
+		</set>
+		<where>
+			id = #{id}
+		</where>		
+	</update>
+	<update id="modifyUserLoginName">
+		UPDATE
+		<include refid="pms_User" />
+		<set>
+			PASSWORD  = #{password},
+			loginName = #{loginName} 
+		</set>
+		<where>
+			id = #{id}
+		</where>
+	</update>
+	<select id="findUserByLoginNameAndPwd" resultType="PmsUser">
+		SELECT u.ID AS id,
+			   u.ID AS userId,
+			   u.USERNAME AS userName,
+			   u.PASSWORD AS PASSWORD,
+			   u.TELEPHONE AS telephone,
+			   u.LOGINNAME as loginName,
+			   u.EMAIL AS email,
+			   u.IMGURL AS imgUrl,
+			   u.SEX AS sex,
+			   u.QQ AS qq,
+			   u.QQUNIQUE AS qqUnique,
+			   u.WBUNIQUE AS wbUnique,
+			   u.WECHATUNIQUE AS wechatUnique,
+			   u.REALNAME AS realName,
+			   u.USERCOMPANY AS userCompany,
+			   u.CLIENTLEVEL AS clientLevel,
+			   DATE_FORMAT(u.BIRTHDAY,'%Y-%m-%d') AS birthday,
+			   DATE_FORMAT(u.CREATEDATE,'%Y-%m-%d %T') AS createDate
+		FROM 
+		<include refid="pms_User" /> u 
+		<where>
+			u.LOGINNAME=#{loginName}
+            AND u.PASSWORD=#{password}
+		</where>
+	</select>
+	<select id="findUserByUserName" resultType="PmsUser">
+		SELECT ID FROM 
+		<include refid="pms_User" /> 
+		<where>
+			USERNAME = #{userName} 
+		</where>
+	</select>
+	<update id="modifyUserInfo">
+			UPDATE 
+			<include refid="pms_User" /> 
+			<set>
+				USERNAME = #{userName},
+				SEX = ${sex},
+				REALNAME = #{realName},
+				email = #{email},
+				qq = #{qq},
+				WECHAT = #{weChat},
+				UPDATE_TIME = CURRENT_TIMESTAMP,
+				USERCOMPANY = #{userCompany},
+				CUSTOMERSOURCE = ${customerSource},
+				IMGURL = #{imgUrl}
+			</set>
+			<where>
+				id = #{id}
+			</where>		
+	</update>
+	<update id="modifyUserPhoto">
+		UPDATE
+		<include refid="pms_User" /> 
+		<set>
+			IMGURL = #{imgUrl},
+			UPDATE_TIME = CURRENT_TIMESTAMP
+		</set>
+		<where>
+			id = #{id}
+		</where>
+	</update>
+	<update id="modifyUserPhone">
+		UPDATE
+		<include refid="pms_User" /> 
+		<set>
+			TELEPHONE = #{telephone},
+			UPDATE_TIME = CURRENT_TIMESTAMP
+		</set>
+		<where>
+			id = #{id}
+		</where>
+	</update>
+	<select id="listPage" resultType="PmsUser">
+		SELECT u.ID AS id,
+		   u.USERNAME AS userName,
+		   u.PASSWORD AS password,
+		   u.TELEPHONE AS telephone,
+		   u.EMAIL AS email,
+		   u.IMGURL AS imgUrl,
+		   u.SEX AS sex,
+		   u.QQ AS qq,
+		   u.REALNAME as realName,
+		   u.USERCOMPANY AS userCompany,
+		   u.CLIENTLEVEL AS clientLevel,
+		   DATE_FORMAT(u.BIRTHDAY,'%Y-%m-%d') AS birthday,
+		   DATE_FORMAT(u.CREATEDATE,'%Y-%m-%d %T') AS createDate,
+		   NOTE AS note,
+		   u.CUSTOMERSOURCE AS customerSource,
+		   u.WECHAT AS weChat,
+		   u.KINDLY_SEND AS kindlySend,
+		   u.PREFERENCE AS preference,
+		   DATE_FORMAT(u.UPDATE_TIME,'%Y-%m-%d %T') AS updateTime,
+		   DATE_FORMAT(u.FOLLOW_TIME,'%Y-%m-%d') AS followTime
+		FROM <include refid="pms_User" />  u
+		<where>
+			<if test="userName != null and userName != ''">
+				u.USERNAME LIKE CONCAT(CONCAT('%',#{userName}),'%')
+			</if>
+			<if test="telephone != null and telephone != ''">
+				AND u.TELEPHONE LIKE CONCAT(CONCAT('%',#{telephone}),'%')
+			</if>
+			<if test="beginTime != null and beginTime != '' ">
+				<![CDATA[
+					AND DATE_FORMAT(u.FOLLOW_TIME,'%Y-%m-%d') >= #{beginTime}
+				]]>
+			</if>
+			<if test="endTime != null  and endTime != ''">
+				<![CDATA[
+					AND DATE_FORMAT(u.FOLLOW_TIME,'%Y-%m-%d') <= #{endTime}
+				]]>
+			</if>
+			<choose>
+				<when test="clientLevel == null">
+					AND u.clientLevel IS NULL
+				</when>
+				<when test="clientLevel != null and clientLevel != -1">
+					AND u.clientLevel = ${clientLevel}
+				</when>
+			</choose>
+		</where>	
+		ORDER BY
+		<if test="sort != null and sort != '' and order != null and order != ''">
+			${sort} ${order},
+		</if>
+			CREATEDATE,ID DESC
+			LIMIT ${begin} , ${limit}
+	</select>
+	
+	<select id="listPageCount" resultType="long">
+			SELECT COUNT(1) 
+			FROM 
+			<include refid="pms_User" /> u
+			<where>
+				<if test="userName != null and userName != ''">
+					u.USERNAME LIKE CONCAT(CONCAT('%',#{userName}),'%')
+				</if>
+				<if test="telephone != null and telephone != ''">
+					AND u.TELEPHONE LIKE CONCAT(CONCAT('%',#{telephone}),'%')
+				</if>
+				<choose>
+					<when test="clientLevel == null">
+						AND u.clientLevel IS NULL
+					</when>
+		
+					<when test="clientLevel != null and clientLevel != -1">
+						AND u.clientLevel = ${clientLevel}
+					</when>
+				</choose>
+			</where>	
+	</select>
+	<update id="unBindThird">
+		UPDATE 
+		<include refid="pms_User" />
+		<set>
+			<if test="lType=='qq'">
+				QQUNIQUE =''
+			</if>
+			<if test="lType=='wb'">
+				WBUNIQUE =''
+			</if>
+	
+			<if test="lType=='wechat'">
+				WECHATUNIQUE =''
+			</if>
+		</set>
+		<where>
+			ID = #{id}
+		</where>
+	</update>
+</mapper>
