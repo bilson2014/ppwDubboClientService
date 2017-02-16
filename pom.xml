@@ -279,7 +279,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>pat-service-team</finalName>
+		<finalName>pat-service-user</finalName>
 		<resources>
 			<resource>
 				<targetPath>${project.build.directory}/classes</targetPath>
