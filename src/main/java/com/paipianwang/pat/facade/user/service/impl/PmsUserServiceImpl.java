@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.paipianwang.pat.common.entity.DataGrid;
 import com.paipianwang.pat.common.entity.PageParam;
-import com.paipianwang.pat.common.entity.ThirdBind;
 import com.paipianwang.pat.facade.user.entity.PmsUser;
+import com.paipianwang.pat.facade.user.entity.ThirdBind;
 import com.paipianwang.pat.facade.user.service.PmsUserFacade;
 import com.paipianwang.pat.facade.user.service.biz.PmsUserBiz;
 /**
@@ -107,6 +107,18 @@ public class PmsUserServiceImpl implements PmsUserFacade {
 	@Override
 	public long delete(long[] ids) {
 		return biz.delete(ids);
+	}
+	@Override
+	public List<PmsUser> all() {
+		return biz.all();
+	}
+	@Override
+	public List<PmsUser> findUserByName(final PmsUser user) {
+		return biz.findUserByName(user);
+	}
+	@Override
+	public long findUnlevelUsers() {
+		return biz.findUnlevelUsers();
 	}
 
 	

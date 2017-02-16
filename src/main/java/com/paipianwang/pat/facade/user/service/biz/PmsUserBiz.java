@@ -9,10 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.paipianwang.pat.common.entity.DataGrid;
 import com.paipianwang.pat.common.entity.PageParam;
-import com.paipianwang.pat.common.entity.ThirdBind;
 import com.paipianwang.pat.common.util.DataUtil;
 import com.paipianwang.pat.common.util.ValidateUtil;
 import com.paipianwang.pat.facade.user.entity.PmsUser;
+import com.paipianwang.pat.facade.user.entity.ThirdBind;
 import com.paipianwang.pat.facade.user.service.dao.PmsUserDao;
 /**
  * user--服务层接口
@@ -264,6 +264,19 @@ public class PmsUserBiz {
 			throw new RuntimeException("Delete User error ...");
 		}
 		return 0l;
+	}
+
+	public List<PmsUser> all() {
+		return pmsUserDao.all();
+	}
+
+	public List<PmsUser> findUserByName(final PmsUser user) {
+		return pmsUserDao.findUserByName(user);
+	}
+
+	public long findUnlevelUsers() {
+		final long count = pmsUserDao.findUserByName();
+		return count;
 	}
 
 	

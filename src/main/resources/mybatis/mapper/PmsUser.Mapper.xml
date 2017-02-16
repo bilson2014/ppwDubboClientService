@@ -461,4 +461,53 @@
 			ID = #{id}
 		</where>
 	</update>
+	
+	<select id="all" resultType="PmsUser">
+		SELECT u.ID AS id,
+			   u.ID AS userId,
+			   u.USERNAME AS userName,
+			   u.PASSWORD AS password,
+			   u.TELEPHONE AS telephone,
+			   u.EMAIL AS email,
+			   u.IMGURL AS imgUrl,
+			   u.SEX AS sex,
+			   u.QQ AS qq,
+			   u.REALNAME AS realName,
+			   u.USERCOMPANY AS userCompany,
+			   u.CLIENTLEVEL AS clientLevel,
+			   DATE_FORMAT(u.BIRTHDAY,'%Y-%m-%d') AS birthday,
+			   DATE_FORMAT(u.CREATEDATE,'%Y-%m-%d %T') AS createDate
+		FROM 
+		<include refid="pms_User" /> u
+		ORDER BY CREATEDATE,ID DESC
+	</select>
+	<select id="findUserByNameOrRealName" resultType="PmsUser">
+		SELECT u.ID AS id,
+			   u.USERNAME AS userName,
+			   u.TELEPHONE AS telephone,
+			   u.REALNAME as realName,
+			   u.USERCOMPANY AS userCompany
+		FROM 
+		<include refid="pms_User" />  u
+		<where>
+			<if test="userName != null and userName != ''">
+				u.USERNAME LIKE CONCAT('%',#{userName},'%')
+			</if>
+			<if test="realName != null and realName != ''">
+				AND u.REALNAME LIKE CONCAT('%',#{realName},'%')
+			</if>
+			<if test="(userName == null or userName == '') and (realName == null or realName == '') ">
+				AND 1=2
+			</if>
+		</where>
+	</select>
+	<select id="findUnlevelUsers" resultType="Long">
+		SELECT COUNT(1)
+			FROM 
+			<include refid="pms_User" />
+			<where>
+				NOTE = ''
+				AND CLIENTLEVEL IS NULL
+			</where>
+	</select>
 </mapper>

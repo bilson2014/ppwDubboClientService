@@ -92,6 +92,12 @@ public interface PmsUserDao extends BaseDao<PmsUser>{
 	 * 用户个人资料页面解除绑定第三方
 	 */
 	public long unBindThird(final PmsUser user);
+	
+	public List<PmsUser> all();
+	
+	public List<PmsUser> findUserByName(final PmsUser user);
+	
+	public long findUserByName();
 
 	
 }

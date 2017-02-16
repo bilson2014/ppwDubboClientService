@@ -28,6 +28,9 @@ public class PmsUserDaoImpl extends BaseDaoImpl<PmsUser> implements PmsUserDao {
 	public static final String SQL_MODIFY_USER_PHOTO = "modifyUserPhoto";
 	public static final String SQL_MODIFY_USER_PHONE = "modifyUserPhone";
 	public static final String SQL_UNBIND_THIRD = "unBindThird";
+	public static final String SQL_ALL = "all";
+	public static final String SQL_FIND_USER_BY_NAMEORREALNAME = "findUserByNameOrRealName";
+	public static final String SQL_FIND_UNLEVEL_USERS = "findUnlevelUsers";
 	@Autowired
 	private SqlSessionTemplate sessionTemplate = null;
 
@@ -141,6 +144,27 @@ public class PmsUserDaoImpl extends BaseDaoImpl<PmsUser> implements PmsUserDao {
 	@Override
 	public long unBindThird(PmsUser user) {
 		return sessionTemplate.update(getStatement(SQL_UNBIND_THIRD), user);
+	}
+
+
+
+	@Override
+	public List<PmsUser> all() {
+		return sessionTemplate.selectList(getStatement(SQL_ALL));
+	}
+
+
+
+	@Override
+	public List<PmsUser> findUserByName(PmsUser user) {
+		return sessionTemplate.selectList(getStatement(SQL_FIND_USER_BY_NAMEORREALNAME),user);
+	}
+
+
+
+	@Override
+	public long findUserByName() {
+		return sessionTemplate.selectOne(getStatement(SQL_FIND_UNLEVEL_USERS));
 	}
 
 	
