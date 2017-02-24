@@ -168,7 +168,7 @@
 			<if test="customerSource != null">
 				CUSTOMERSOURCE = ${customerSource},
 			</if>
-			<if test="kindlySend != null  and kindlySend != ''">
+			<if test="kindlySend != null">
 				KINDLY_SEND = #{kindlySend},
 			</if>
 			   IMGURL = #{imgUrl},
