@@ -37,6 +37,11 @@
 			<artifactId>pat-facade-user</artifactId>
 			<version>${pat-facade-user.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.paipianwang.pat</groupId>
+			<artifactId>pat-facade-right</artifactId>
+			<version>${pat-facade-right.version}</version>
+		</dependency>
 
 		<!-- Common Dependency Begin -->
 		<dependency>

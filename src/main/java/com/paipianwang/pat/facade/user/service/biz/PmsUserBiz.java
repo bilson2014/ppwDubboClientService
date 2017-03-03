@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.paipianwang.pat.common.entity.DataGrid;
 import com.paipianwang.pat.common.entity.PageParam;
 import com.paipianwang.pat.common.util.DataUtil;
-import com.paipianwang.pat.common.util.ValidateUtil;
+import com.paipianwang.pat.facade.right.util.ValidateUtil;
 import com.paipianwang.pat.facade.user.entity.PmsUser;
 import com.paipianwang.pat.facade.user.entity.ThirdBind;
 import com.paipianwang.pat.facade.user.service.dao.PmsUserDao;
