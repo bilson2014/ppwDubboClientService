@@ -364,7 +364,7 @@
 			id = #{id}
 		</where>
 	</update>
-	<select id="listPage" resultType="PmsUser">
+	<select id="listPage" resultType="PmsUser" >
 		SELECT u.ID AS id,
 		   u.USERNAME AS userName,
 		   u.PASSWORD AS password,
