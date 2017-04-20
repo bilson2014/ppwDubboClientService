@@ -1,8 +1,10 @@
 package com.paipianwang.pat.facade.user.service.biz;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,9 +16,9 @@ import com.paipianwang.pat.common.util.ValidateUtil;
 import com.paipianwang.pat.facade.user.entity.PmsUser;
 import com.paipianwang.pat.facade.user.entity.ThirdBind;
 import com.paipianwang.pat.facade.user.service.dao.PmsUserDao;
+
 /**
- * user--服务层接口
- * 事物管理层
+ * user--服务层接口 事物管理层
  */
 @Transactional
 @Service
@@ -25,7 +27,7 @@ public class PmsUserBiz {
 	@Autowired
 	private PmsUserDao pmsUserDao;
 
-	public int validationPhone(final String telephone,final String loginName) {
+	public int validationPhone(final String telephone, final String loginName) {
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("telephone", telephone);
 		paramMap.put("loginName", loginName);
@@ -34,6 +36,18 @@ public class PmsUserBiz {
 
 	public long save(PmsUser user) {
 		return pmsUserDao.save(user);
+	}
+
+	@Transactional
+	public long register(PmsUser user) {
+		// 用户注册，首先需要查询手机号码是否存在
+		final PmsUser db_user = pmsUserDao.findUserByPhone(user.getTelephone());
+		if (db_user == null) {
+			// 如果数据库没有值，则插入
+			return pmsUserDao.save(user);
+		}
+		// 数据库有值，则返回-1
+		return -1;
 	}
 
 	public boolean userInfoBind(PmsUser u) {
@@ -69,14 +83,9 @@ public class PmsUserBiz {
 	}
 
 	/**
-	 * 三方用户不存在
-	 * 		 1.手机号没注册过 phoneStatus 
-	 * 		 2.手机号注册过,但是未绑定第三方 thirdStatus
-	 * 		 3.手机号注册过,且绑定了第三方
-	 * 三方用户已经存在 ,但是未绑定手机 
-	 * 		 4.手机号没注册过
-	 * 		 5.手机号注册过,但是未绑定第三方
-	 * 		 6.手机号注册了,也绑定了第三方
+	 * 三方用户不存在 1.手机号没注册过 phoneStatus 2.手机号注册过,但是未绑定第三方 thirdStatus
+	 * 3.手机号注册过,且绑定了第三方 三方用户已经存在 ,但是未绑定手机 4.手机号没注册过 5.手机号注册过,但是未绑定第三方
+	 * 6.手机号注册了,也绑定了第三方
 	 */
 	public Map<String, Object> bindThird(ThirdBind bind) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -248,7 +257,7 @@ public class PmsUserBiz {
 	}
 
 	public DataGrid<PmsUser> listWithPagination(PageParam pageParam, Map<String, Object> paramMap) {
-		return pmsUserDao.listWithPagination(pageParam,paramMap);
+		return pmsUserDao.listWithPagination(pageParam, paramMap);
 	}
 
 	public long update(final PmsUser user) {
@@ -279,6 +288,4 @@ public class PmsUserBiz {
 		return count;
 	}
 
-	
-	
 }
