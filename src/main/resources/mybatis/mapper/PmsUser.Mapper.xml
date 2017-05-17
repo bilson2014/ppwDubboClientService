@@ -501,6 +501,22 @@
 			</if>
 		</where>
 	</select>
+	<select id="findUserByIds" resultType="PmsUser">
+		SELECT u.ID AS id,
+			   u.USERNAME AS userName,
+			   u.TELEPHONE AS telephone,
+			   u.REALNAME as realName,
+			   u.USERCOMPANY AS userCompany
+		FROM 
+		<include refid="pms_User" />  u
+		<where>
+			u.ID IN 
+			<foreach collection="array" open="(" close=")" item="item"
+					separator=",">
+					#{item}
+			</foreach>	
+		</where>
+	</select>
 	<select id="findUnlevelUsers" resultType="Long">
 		SELECT COUNT(1)
 			FROM 

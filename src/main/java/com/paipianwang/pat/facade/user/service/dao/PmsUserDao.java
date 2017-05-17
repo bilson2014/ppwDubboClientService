@@ -98,6 +98,8 @@ public interface PmsUserDao extends BaseDao<PmsUser>{
 	public List<PmsUser> findUserByName(final PmsUser user);
 	
 	public long findUserByName();
+	
+	public List<PmsUser> findUserByIds(List<Long> userIds);
 
 	
 }

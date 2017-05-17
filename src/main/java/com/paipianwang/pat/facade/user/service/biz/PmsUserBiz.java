@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.paipianwang.pat.common.entity.BaseEntity;
 import com.paipianwang.pat.common.entity.DataGrid;
 import com.paipianwang.pat.common.entity.PageParam;
 import com.paipianwang.pat.common.util.DataUtil;
@@ -34,8 +34,12 @@ public class PmsUserBiz {
 		return pmsUserDao.validationPhone(paramMap);
 	}
 
-	public long save(PmsUser user) {
-		return pmsUserDao.save(user);
+	public Map<String, Object> save(PmsUser user) {
+		Map<String, Object> map = new HashMap<>();
+		long save = pmsUserDao.save(user);
+		map.put(BaseEntity.SAVE_MAP_ID, user.getUserId());
+		map.put(BaseEntity.SAVE_MAP_ROWS, save);
+		return map;
 	}
 
 	@Transactional
@@ -286,6 +290,11 @@ public class PmsUserBiz {
 	public long findUnlevelUsers() {
 		final long count = pmsUserDao.findUserByName();
 		return count;
+	}
+
+	public List<PmsUser> findUserByIds(List<Long> userIds) {
+		List<PmsUser> lsit = pmsUserDao.findUserByIds(userIds);
+		return lsit;
 	}
 
 }

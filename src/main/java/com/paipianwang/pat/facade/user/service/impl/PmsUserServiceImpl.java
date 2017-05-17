@@ -127,7 +127,7 @@ public class PmsUserServiceImpl implements PmsUserFacade {
 	}
 
 	@Override
-	public long save(final PmsUser user) {
+	public Map<String, Object> save(final PmsUser user) {
 		return biz.save(user);
 	}
 
@@ -154,6 +154,12 @@ public class PmsUserServiceImpl implements PmsUserFacade {
 	@Override
 	public long findUnlevelUsers() {
 		return biz.findUnlevelUsers();
+	}
+
+	@Override
+	public List<PmsUser> findUserByIds(List<Long> userIds) {
+		List<PmsUser> list = biz.findUserByIds(userIds);
+		return list;
 	}
 
 }
