@@ -12,7 +12,7 @@
 		                   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 
 	<!-- 基于Druid数据库链接池的数据源配置 -->
-	<bean id="dataSourcePrincipal" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
 		<!-- 基本属性driverClassName、 url、user、password -->
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="${jdbc.url}" />
@@ -34,10 +34,6 @@
 		<!-- 解密密码必须要配置的项 -->
 		<property name="filters" value="config" />
 		<property name="connectionProperties" value="config.decrypt=true" />
-	</bean>
-	
-	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
-		<constructor-arg ref="dataSourcePrincipal" />
 	</bean>
 	
 	<!-- 将数据源映射到sqlSessionFactory中 -->
