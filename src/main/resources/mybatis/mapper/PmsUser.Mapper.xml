@@ -40,7 +40,15 @@
 				WECHAT,
 				KINDLY_SEND,
 				FOLLOW_TIME,
-				UPDATE_TIME
+				UPDATE_TIME,
+				REFERRERID,
+				OFFICIALSITE,
+				POSITION,
+				CUSTOMERTYPE,
+				PURCHASEFREQUENCY,
+				PURCHASEPRICE,
+				CUSTOMERSIZE,
+				ENDORSE
 		<if test="clientLevel != null">
 			,CLIENTLEVEL
 		</if>
@@ -63,7 +71,15 @@
 				#{weChat},
 				#{kindlySend},
 				#{followTime},
-				CURRENT_TIMESTAMP
+				CURRENT_TIMESTAMP,
+				#{referrerId},
+				#{officialSite},
+				#{position},
+				#{customerType},
+				#{purchaseFrequency},
+				#{purchasePrice},
+				#{customerSize},
+				#{endorse}
 		<if test="clientLevel != null">
 			,${clientLevel}
 		</if>
@@ -123,7 +139,15 @@
 			   u.CUSTOMERSOURCE AS customerSource,
 			   u.QQUNIQUE AS qqUnique,
 			   u.WBUNIQUE AS wbUnique,
-			   u.WECHATUNIQUE AS wechatUnique
+			   u.WECHATUNIQUE AS wechatUnique,
+			   u.REFERRERID AS referrerId,
+			   u.OFFICIALSITE AS officialSite,
+			   u.POSITION AS position,
+			   u.CUSTOMERTYPE AS customerType,
+			   u.PURCHASEFREQUENCY AS purchaseFrequency,
+			   u.PURCHASEPRICE AS purchasePrice,
+			   u.CUSTOMERSIZE AS customerSize,
+			   u.ENDORSE AS endorse
 		FROM 
 		<include refid="pms_User" />  u
 		<where>
@@ -149,7 +173,6 @@
 			<if test="qqUnique != null and qqUnique != ''">
 				QQUNIQUE = #{qqUnique},
 			</if>
-	
 			<if test="wbUnique != null and wbUnique != ''">
 				WBUNIQUE = #{wbUnique},
 			</if>
@@ -170,6 +193,30 @@
 			</if>
 			<if test="kindlySend != null">
 				KINDLY_SEND = #{kindlySend},
+			</if>
+			<if test="referrerId != null">
+				REFERRERID = #{referrerId},
+			</if>
+			<if test="officialSite != null and officialSite != ''">
+				OFFICIALSITE = #{officialSite},
+			</if>
+			<if test="position != null">
+				POSITION = #{position},
+			</if>
+			<if test="customerType != null">
+				CUSTOMERTYPE = #{customerType},
+			</if>
+			<if test="purchaseFrequency != null">
+				PURCHASEFREQUENCY = #{purchaseFrequency},
+			</if>
+			<if test="purchasePrice != null">
+				PURCHASEPRICE = #{purchasePrice},
+			</if>
+			<if test="customerSize != null">
+				CUSTOMERSIZE = #{customerSize},
+			</if>
+			<if test="endorse != null">
+				ENDORSE = #{endorse},
 			</if>
 			   IMGURL = #{imgUrl},
 			   SEX = ${sex},
@@ -384,7 +431,15 @@
 		   u.KINDLY_SEND AS kindlySend,
 		   u.PREFERENCE AS preference,
 		   DATE_FORMAT(u.UPDATE_TIME,'%Y-%m-%d %T') AS updateTime,
-		   DATE_FORMAT(u.FOLLOW_TIME,'%Y-%m-%d') AS followTime
+		   DATE_FORMAT(u.FOLLOW_TIME,'%Y-%m-%d') AS followTime,
+		   u.REFERRERID AS referrerId,
+		   u.OFFICIALSITE AS officialSite,
+		   u.POSITION AS position,
+		   u.CUSTOMERTYPE AS customerType,
+		   u.PURCHASEFREQUENCY AS purchaseFrequency,
+		   u.PURCHASEPRICE AS purchasePrice,
+		   u.CUSTOMERSIZE AS customerSize,
+		   u.ENDORSE AS endorse
 		FROM <include refid="pms_User" />  u
 		<where>
 			<if test="userName != null and userName != ''">
@@ -476,7 +531,14 @@
 			   u.USERCOMPANY AS userCompany,
 			   u.CLIENTLEVEL AS clientLevel,
 			   DATE_FORMAT(u.BIRTHDAY,'%Y-%m-%d') AS birthday,
-			   DATE_FORMAT(u.CREATEDATE,'%Y-%m-%d %T') AS createDate
+			   DATE_FORMAT(u.CREATEDATE,'%Y-%m-%d %T') AS createDate,
+			   u.REFERRERID AS referrerId,
+			   u.OFFICIALSITE AS officialSite,
+			   u.POSITION AS position,
+			   u.CUSTOMERTYPE AS customerType,
+			   u.PURCHASEFREQUENCY AS purchaseFrequency,
+			   u.PURCHASEPRICE AS purchasePrice,
+			   u.CUSTOMERSIZE AS customerSize
 		FROM 
 		<include refid="pms_User" /> u
 		ORDER BY CREATEDATE,ID DESC
@@ -519,7 +581,7 @@
 	</select>
 	<select id="findUnlevelUsers" resultType="Long">
 		SELECT COUNT(1)
-			FROM 
+			FROM
 			<include refid="pms_User" />
 			<where>
 				NOTE = ''

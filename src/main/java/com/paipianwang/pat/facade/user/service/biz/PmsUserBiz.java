@@ -37,7 +37,7 @@ public class PmsUserBiz {
 	public Map<String, Object> save(PmsUser user) {
 		Map<String, Object> map = new HashMap<>();
 		long save = pmsUserDao.save(user);
-		map.put(BaseEntity.SAVE_MAP_ID, user.getUserId());
+		map.put(BaseEntity.SAVE_MAP_ID, user.getId());
 		map.put(BaseEntity.SAVE_MAP_ROWS, save);
 		return map;
 	}
