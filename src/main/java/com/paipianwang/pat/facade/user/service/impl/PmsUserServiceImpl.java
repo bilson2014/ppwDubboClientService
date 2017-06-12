@@ -215,7 +215,7 @@ public class PmsUserServiceImpl implements PmsUserFacade {
 			for (int i = 0; i < Grade.customerType.length; i++) {
 				Option option = Grade.customerType[i];
 				int id = option.getId();
-				if (position.intValue() == id) {
+				if (customerType.intValue() == id) {
 					sum += option.getScore();
 					break;
 				}
@@ -225,7 +225,7 @@ public class PmsUserServiceImpl implements PmsUserFacade {
 			for (int i = 0; i < Grade.endorse.length; i++) {
 				Option option = Grade.endorse[i];
 				int id = option.getId();
-				if (position.intValue() == id) {
+				if (endorse.intValue() == id) {
 					sum += option.getScore();
 					break;
 				}
@@ -235,7 +235,7 @@ public class PmsUserServiceImpl implements PmsUserFacade {
 			for (int i = 0; i < Grade.purchaseFrequency.length; i++) {
 				Option option = Grade.purchaseFrequency[i];
 				int id = option.getId();
-				if (position.intValue() == id) {
+				if (purchaseFrequency.intValue() == id) {
 					sum += option.getScore();
 					break;
 				}
@@ -245,7 +245,7 @@ public class PmsUserServiceImpl implements PmsUserFacade {
 			for (int i = 0; i < Grade.purchasePrice.length; i++) {
 				Option option = Grade.purchasePrice[i];
 				int id = option.getId();
-				if (position.intValue() == id) {
+				if (purchasePrice.intValue() == id) {
 					sum += option.getScore();
 					break;
 				}
@@ -255,7 +255,7 @@ public class PmsUserServiceImpl implements PmsUserFacade {
 			for (int i = 0; i < Grade.customerSize.length; i++) {
 				Option option = Grade.customerSize[i];
 				int id = option.getId();
-				if (position.intValue() == id) {
+				if (customerSize.intValue() == id) {
 					sum += option.getScore();
 					break;
 				}
