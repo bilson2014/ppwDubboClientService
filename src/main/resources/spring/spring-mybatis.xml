@@ -22,7 +22,7 @@
 		<!-- 通常来说，只需要修改initialSize、minIdle、maxActive -->
 		<property name="initialSize" value="2" />
 		<property name="minIdle" value="2" />
-		<property name="maxActive" value="30" />
+		<property name="maxActive" value="20" />
 		<property name="testWhileIdle" value="false" />
 
 		<!-- 配置获取连接等待超时的时间 -->
@@ -34,6 +34,13 @@
 		<!-- 解密密码必须要配置的项 -->
 		<property name="filters" value="config" />
 		<property name="connectionProperties" value="config.decrypt=true" />
+		
+		<!-- 超过时间限制是否回收 -->
+		<property name="removeAbandoned" value="true" />
+		<!-- 超时时间；单位为秒。180秒=3分钟 -->
+		<property name="removeAbandonedTimeout" value="180" />
+		<!-- 关闭abanded连接时输出错误日志 -->
+		<property name="logAbandoned" value="true" />
 	</bean>
 	
 	<!-- 将数据源映射到sqlSessionFactory中 -->
