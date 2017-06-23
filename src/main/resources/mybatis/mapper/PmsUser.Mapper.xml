@@ -147,7 +147,8 @@
 			   u.PURCHASEFREQUENCY AS purchaseFrequency,
 			   u.PURCHASEPRICE AS purchasePrice,
 			   u.CUSTOMERSIZE AS customerSize,
-			   u.ENDORSE AS endorse
+			   u.ENDORSE AS endorse,
+			   u.note AS note
 		FROM 
 		<include refid="pms_User" />  u
 		<where>
@@ -445,17 +446,52 @@
 			<if test="userName != null and userName != ''">
 				u.USERNAME LIKE CONCAT(CONCAT('%',#{userName}),'%')
 			</if>
+			<if test="realName != null  and realName != ''">
+				<![CDATA[
+					AND u.REALNAME LIKE CONCAT(CONCAT('%',#{realName}),'%')
+				]]>
+			</if>
+			<if test="userCompany != null  and userCompany != ''">
+				<![CDATA[
+					AND u.USERCOMPANY LIKE CONCAT(CONCAT('%',#{userCompany}),'%')
+				]]>
+			</if>
 			<if test="telephone != null and telephone != ''">
 				AND u.TELEPHONE LIKE CONCAT(CONCAT('%',#{telephone}),'%')
 			</if>
-			<if test="beginTime != null and beginTime != '' ">
+			<if test="officialSite != null  and officialSite != ''">
 				<![CDATA[
-					AND DATE_FORMAT(u.FOLLOW_TIME,'%Y-%m-%d') >= #{beginTime}
+					AND u.OFFICIALSITE LIKE CONCAT(CONCAT('%',#{telephone}),'%')
 				]]>
 			</if>
-			<if test="endTime != null  and endTime != ''">
+			<if test="customerType != null">
 				<![CDATA[
-					AND DATE_FORMAT(u.FOLLOW_TIME,'%Y-%m-%d') <= #{endTime}
+					AND u.CUSTOMERTYPE = #{customerType}
+				]]>
+			</if>
+			<if test="purchaseFrequency != null">
+				<![CDATA[
+					AND u.PURCHASEFREQUENCY = #{purchaseFrequency}
+				]]>
+			</if>
+			<if test="purchasePrice != null">
+				<![CDATA[
+					AND u.PURCHASEPRICE = #{purchasePrice}
+				]]>
+			</if>
+			<if test="customerSize != null">
+				<![CDATA[
+					AND u.CUSTOMERSIZE = #{customerSize}
+				]]>
+			</if>
+			<if test="endorse != null">
+				<![CDATA[
+					AND u.ENDORSE = #{endorse}
+				]]>
+			</if>
+			<if test="customerType != null">
+				<![CDATA[
+					AND u.CUSTOMERTYPE = #{customerType}
 				]]>
 			</if>
 			<choose>
@@ -481,10 +517,55 @@
 			<include refid="pms_User" /> u
 			<where>
 				<if test="userName != null and userName != ''">
-					u.USERNAME LIKE CONCAT(CONCAT('%',#{userName}),'%')
+				u.USERNAME LIKE CONCAT(CONCAT('%',#{userName}),'%')
+				</if>
+				<if test="realName != null  and realName != ''">
+					<![CDATA[
+						AND u.REALNAME LIKE CONCAT(CONCAT('%',#{realName}),'%')
+					]]>
+				</if>
+				<if test="userCompany != null  and userCompany != ''">
+					<![CDATA[
+						AND u.USERCOMPANY LIKE CONCAT(CONCAT('%',#{userCompany}),'%')
+					]]>
 				</if>
 				<if test="telephone != null and telephone != ''">
 					AND u.TELEPHONE LIKE CONCAT(CONCAT('%',#{telephone}),'%')
+				</if>
+				<if test="officialSite != null  and officialSite != ''">
+					<![CDATA[
+						AND u.OFFICIALSITE LIKE CONCAT(CONCAT('%',#{telephone}),'%')
+					]]>
+				</if>
+				<if test="customerType != null">
+					<![CDATA[
+						AND u.CUSTOMERTYPE = #{customerType}
+					]]>
+				</if>
+				<if test="purchaseFrequency != null">
+					<![CDATA[
+						AND u.PURCHASEFREQUENCY = #{purchaseFrequency}
+					]]>
+				</if>
+				<if test="purchasePrice != null">
+					<![CDATA[
+						AND u.PURCHASEPRICE = #{purchasePrice}
+					]]>
+				</if>
+				<if test="customerSize != null">
+					<![CDATA[
+						AND u.CUSTOMERSIZE = #{customerSize}
+					]]>
+				</if>
+				<if test="endorse != null">
+					<![CDATA[
+						AND u.ENDORSE = #{endorse}
+					]]>
+				</if>
+				<if test="customerType != null">
+					<![CDATA[
+						AND u.CUSTOMERTYPE = #{customerType}
+					]]>
 				</if>
 				<choose>
 					<when test="clientLevel == null">
@@ -543,6 +624,16 @@
 		<include refid="pms_User" /> u
 		ORDER BY CREATEDATE,ID DESC
 	</select>
+	
+	<select id="getDroplist" resultType="PmsUser">
+		SELECT u.ID AS id,
+			   u.ID AS userId,
+			   u.USERNAME AS userName
+		FROM 
+		<include refid="pms_User" /> u
+		ORDER BY CREATEDATE,ID DESC
+	</select>
+	
 	<select id="findUserByNameOrRealName" resultType="PmsUser">
 		SELECT u.ID AS id,
 			   u.USERNAME AS userName,

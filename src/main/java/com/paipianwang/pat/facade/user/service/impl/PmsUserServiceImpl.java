@@ -179,7 +179,7 @@ public class PmsUserServiceImpl implements PmsUserFacade {
 	}
 
 	@Override
-	public int computeScore(PmsUser user) {
+	public Integer computeScore(PmsUser user) {
 		Integer position = user.getPosition();
 		Integer customerType = user.getCustomerType();
 		Integer endorse = user.getEndorse();
@@ -262,7 +262,7 @@ public class PmsUserServiceImpl implements PmsUserFacade {
 			}
 		}
 
-		int score = -1;
+		Integer score = -1;
 		if (sum > 26 && sum <= 35) {
 			score = 3; // S
 		} else if (sum > 21 && sum <= 26) {
@@ -271,10 +271,17 @@ public class PmsUserServiceImpl implements PmsUserFacade {
 			score = 1; // B
 		} else if (sum > 11 && sum <= 15) {
 			score = 2; // C
-		} else {
+		} else if(sum > 0){
 			score = 4; // D
+		}else{
+			score = null; // 未分级
 		}
 
 		return score;
+	}
+
+	@Override
+	public List<PmsUser> getDroplist() {
+		return biz.getDroplist();
 	}
 }

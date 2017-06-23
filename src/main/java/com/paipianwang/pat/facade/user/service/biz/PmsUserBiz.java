@@ -297,4 +297,9 @@ public class PmsUserBiz {
 		return lsit;
 	}
 
+	public List<PmsUser> getDroplist() {
+		
+		return pmsUserDao.getDroplist();
+	}
+
 }
