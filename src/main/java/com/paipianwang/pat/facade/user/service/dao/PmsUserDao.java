@@ -100,6 +100,8 @@ public interface PmsUserDao extends BaseDao<PmsUser>{
 	public long findUserByName();
 	
 	public List<PmsUser> findUserByIds(List<Long> userIds);
+	
+	public List<PmsUser> getDroplist();
 
 	
 }

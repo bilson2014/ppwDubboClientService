@@ -34,6 +34,7 @@ public class PmsUserDaoImpl extends BaseDaoImpl<PmsUser> implements PmsUserDao {
 	public static final String SQL_FIND_USER_BY_NAMEORREALNAME = "findUserByNameOrRealName";
 	public static final String SQL_FIND_UNLEVEL_USERS = "findUnlevelUsers";
 	public static final String SQL_FIND_USER_BYIDS = "findUserByIds";
+	public static final String SQL_GETDROPLIST = "getDroplist";
 	@Autowired
 	private SqlSessionTemplate sessionTemplate = null;
 
@@ -137,6 +138,11 @@ public class PmsUserDaoImpl extends BaseDaoImpl<PmsUser> implements PmsUserDao {
 		Map<String, Object> array = new HashMap<>();
 		array.put("array", userIds);
 		return sessionTemplate.selectList(getStatement(SQL_FIND_USER_BYIDS), array);
+	}
+
+	@Override
+	public List<PmsUser> getDroplist() {
+		return sessionTemplate.selectList(getStatement(SQL_GETDROPLIST));
 	}
 
 }
