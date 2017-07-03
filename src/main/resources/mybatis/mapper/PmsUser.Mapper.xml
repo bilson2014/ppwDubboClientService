@@ -198,7 +198,7 @@
 			<if test="referrerId != null">
 				REFERRERID = #{referrerId},
 			</if>
-			<if test="officialSite != null and officialSite != ''">
+			<if test="officialSite != null">
 				OFFICIALSITE = #{officialSite},
 			</if>
 			<if test="position != null">
@@ -459,7 +459,7 @@
 			<if test="telephone != null and telephone != ''">
 				AND u.TELEPHONE LIKE CONCAT(CONCAT('%',#{telephone}),'%')
 			</if>
-			<if test="officialSite != null  and officialSite != ''">
+			<if test="officialSite != null  and">
 				<![CDATA[
 					AND u.OFFICIALSITE LIKE CONCAT(CONCAT('%',#{telephone}),'%')
 				]]>
@@ -532,7 +532,7 @@
 				<if test="telephone != null and telephone != ''">
 					AND u.TELEPHONE LIKE CONCAT(CONCAT('%',#{telephone}),'%')
 				</if>
-				<if test="officialSite != null  and officialSite != ''">
+				<if test="officialSite != null ">
 					<![CDATA[
 						AND u.OFFICIALSITE LIKE CONCAT(CONCAT('%',#{telephone}),'%')
 					]]>
