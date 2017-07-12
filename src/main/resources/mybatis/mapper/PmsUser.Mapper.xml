@@ -459,7 +459,7 @@
 			<if test="telephone != null and telephone != ''">
 				AND u.TELEPHONE LIKE CONCAT(CONCAT('%',#{telephone}),'%')
 			</if>
-			<if test="officialSite != null ">
+			<if test="officialSite != null and officialSite != ''">
 				<![CDATA[
 					AND u.OFFICIALSITE LIKE CONCAT(CONCAT('%',#{officialSite}),'%')
 				]]>
@@ -532,7 +532,7 @@
 				<if test="telephone != null and telephone != ''">
 					AND u.TELEPHONE LIKE CONCAT(CONCAT('%',#{telephone}),'%')
 				</if>
-				<if test="officialSite != null ">
+				<if test="officialSite != null and officialSite != '' ">
 					<![CDATA[
 						AND u.OFFICIALSITE LIKE CONCAT(CONCAT('%',#{officialSite}),'%')
 					]]>
