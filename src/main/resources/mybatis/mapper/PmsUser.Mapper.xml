@@ -195,9 +195,9 @@
 			<if test="kindlySend != null">
 				KINDLY_SEND = #{kindlySend},
 			</if>
-			<if test="referrerId != null">
+			<!-- <if test="referrerId != null"> -->
 				REFERRERID = #{referrerId},
-			</if>
+			<!-- </if> -->
 			<if test="officialSite != null">
 				OFFICIALSITE = #{officialSite},
 			</if>
@@ -502,6 +502,12 @@
 					AND u.clientLevel = ${clientLevel}
 				</when>
 			</choose>
+			<if test="beginTime != null and beginTime != '' ">
+				AND DATE_FORMAT(CREATEDATE,'%Y-%m-%d') &gt;= #{beginTime}
+			</if>
+			<if test="endTime != null  and endTime != ''">
+				AND DATE_FORMAT(CREATEDATE,'%Y-%m-%d') &lt;= #{endTime}
+			</if>
 		</where>	
 		ORDER BY
 		<if test="sort != null and sort != '' and order != null and order != ''">
@@ -576,6 +582,12 @@
 						AND u.clientLevel = ${clientLevel}
 					</when>
 				</choose>
+				<if test="beginTime != null and beginTime != '' ">
+					AND DATE_FORMAT(CREATEDATE,'%Y-%m-%d') &gt;= #{beginTime}
+				</if>
+				<if test="endTime != null  and endTime != ''">
+					AND DATE_FORMAT(CREATEDATE,'%Y-%m-%d') &lt;= #{endTime}
+				</if>
 			</where>	
 	</select>
 	<update id="unBindThird">
