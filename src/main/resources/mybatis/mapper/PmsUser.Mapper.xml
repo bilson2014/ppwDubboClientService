@@ -651,7 +651,8 @@
 			   u.USERNAME AS userName,
 			   u.TELEPHONE AS telephone,
 			   u.REALNAME as realName,
-			   u.USERCOMPANY AS userCompany
+			   u.USERCOMPANY AS userCompany,
+			   u.CLIENTLEVEL AS clientLevel
 		FROM 
 		<include refid="pms_User" />  u
 		<where>
@@ -661,7 +662,10 @@
 			<if test="realName != null and realName != ''">
 				AND u.REALNAME LIKE CONCAT('%',#{realName},'%')
 			</if>
-			<if test="(userName == null or userName == '') and (realName == null or realName == '') ">
+			<if test="userCompany != null and userCompany != ''">
+				AND u.USERCOMPANY LIKE CONCAT('%',#{userCompany},'%')
+			</if>
+			<if test="(userName == null or userName == '') and (realName == null or realName == '') and (userCompany == null or userCompany == '')">
 				AND 1=2
 			</if>
 		</where>
